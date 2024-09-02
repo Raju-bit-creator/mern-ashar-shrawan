@@ -10,6 +10,7 @@ app.use(express.json())
  })
 
 app.use('/api/auth', require('./routes.js/Auth'))
+app.use('/api/product', require('./routes.js/Product'))
 
  app.listen(port,()=>{
   console.log(`api is listening on port: ${port}`);
