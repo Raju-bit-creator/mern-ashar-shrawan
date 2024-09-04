@@ -14,4 +14,5 @@ app.use('/api/product', require('./routes.js/Product'))
 
  app.listen(port,()=>{
   console.log(`api is listening on port: ${port}`);
-   })
+})
+//crud create read update delete

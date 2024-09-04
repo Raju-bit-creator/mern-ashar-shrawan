@@ -4,6 +4,7 @@ const fetchuser = require('../middleware/Fetchuser')
 const {body, validationResult } = require('express-validator')
 const router = express.Router()
 
+//fetch all products by single user
 router.get('/getallproduct', fetchuser, async (req, res) => {
     try {
         const products = await Product.find({ user: req.user.id })
@@ -60,4 +61,31 @@ router.post('/addproduct', fetchuser,
             res.status(500).send("internal server error") 
         }
     })
+    //deleting product
+    router.delete('/deleteproduct/:id', fetchuser, async(req, res)=>{
+       try {
+        let product=await Product.findById(req.params.id)
+        if(!product){
+            return res.status(404).send('product not found')
+        }
+        if (product.user.toString() !==req.user.id){
+            return res.status(401).send('not allowed')
+        }
+        product = await Product.findByIdAndDelete(req.params.id)
+        res.json({"success": "product has been deleted", product:product})
+       } catch (error) {
+        res.status(500).send("internal server error") 
+       }
+    })
+
 module.exports = router
+
+
+//  200OK: The request was successful, and the server returned the requested data.
+
+// 400 Bad Request: The server could not understand the request due to invalid syntax.
+// 401 Unauthorized: The client must authenticate itself to get the requested response.
+// 403 Forbidden: The client does not have access rights to the content.
+// 404 Not Found: The server could not find the requested resource.
+
+// 500 Internal Server Error: The server encountered an unexpected condition that prevented it from fulfilling the request.
