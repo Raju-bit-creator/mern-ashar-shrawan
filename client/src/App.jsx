@@ -66,7 +66,7 @@ function App() {
           <Route path='/reduce' element={<Form />} />
           <Route path='/cartitems' element={<CartItems/>} />
           <Route path='/login' element={<Login/>} />
-          <Route path='/signup' element={<Signup/>} />
+          <Route path='/signup' element={<Signup alert={alert} showAlert={showAlert}  />} />
         </Routes>
       </Router>
     </BlogState>

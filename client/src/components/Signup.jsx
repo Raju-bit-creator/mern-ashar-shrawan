@@ -1,72 +1,75 @@
-import React from "react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-const Signup = () => {
-    const [credential, setCredential] = useState({
-        name: "",
-        email: "",
-        password: "",
-        location: "",
-    });
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+// import Register from './images/signup.jpg'
 
-    const handleSubmit = () => {
-        console.log("hllllooooooo");
-    };
-    const handleChange = (e) => {
-        setCredential({ ...credential, [e.target.name]: e.target.value });
-    };
+const Signup = (props) => {
+    const [credentials, setCredentials] = useState({ name: "", email: "", password: "", cpassword: "" })
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const { name, email, password } = credentials
+        const response = await fetch("http://localhost:5000/api/auth/createuser", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, email, password })
+        });
+        const json = await response.json()
+        console.log('this is response ', json);
+        if (json) {
+            // Save the auth token and redirect
+            localStorage.setItem('token', json.authToken);
+            navigate("/login");
+            props.showAlert('Account created ', 'success')
+
+        }
+        else {
+            props.showAlert('invalid credential', 'danger')
+        }
+    }
+
+    const onChange = (e) => {
+        setCredentials({ ...credentials, [e.target.name]: e.target.value })
+    }
 
     return (
-        <div className="container">
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label for="exampleInputEmail1">Name</label>
-                    <input
-                        type="Name"
-                        className="form-control" value={credential.name} onChange={handleChange} name='name'
-                        id="exampleInputEmail1"
-                        aria-describedby="emailHelp"
-                        placeholder="Enter email"
-                    ></input>
+        <div className='container my-5'>
+            <div className='row'>
+                <div className='col-md-6'>
+                    {/* <img src={Register} alt='Sign-up'/> */}
                 </div>
-                <div className="form-group">
-                    <label for="email1">Email</label>
-                    <input
-                        type="Email"
-                        className="form-control" value={credential.email} onChange={handleChange} name='email'
-                        id="exampleInputPassword1"
-                        placeholder="Password"
-                    ></input>
-                </div>
-                <div className="form-group" value={credential.password} onChange={handleChange} name='password'>
-                    <label for="Password1">Password</label>
-                    <input
-                        type="password"
-                        className="form-control" value={credential.location} onChange={handleChange} name='location'
-                        id="exampleInputPassword1"
-                        placeholder="Password"
-                    ></input>
-                </div>
-                <div className="form-group">
-                    <label for="location">Location</label>
-                    <input
-                        type="location"
-                        className="form-control"
-                        id="exampleInputPassword1"
-                        placeholder="Password"
-                    ></input>
+                <div className='col-md-6'>
+                    <h2 className='login-title'>Register to continue our first project</h2>
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-3 signup-form">
+                            <i claasName="fa fa-user"></i>
+                            <input type="text" className="form-control login-form" value={credentials.name} onChange={onChange} id="name" name="name" aria-describedby="emailHelp" placeholder='Name' />
+
+                        </div>
+                        <div className="mb-3 signup-form">
+                            <i claasName="fa fa-envelope"></i>
+                            <input type="email" className="form-control login-form" value={credentials.email} onChange={onChange} id="email" name="email" aria-describedby="emailHelp" placeholder='Email' />
+
+                        </div>
+                        <div className="mb-3 signup-form">
+                            <i claasName="fa fa-key"></i>
+                            <input type="password" className="form-control login-form" value={credentials.password} onChange={onChange} name="password" id="password" minLength={5} required placeholder='Password' />
+                        </div>
+                        <div className="mb-3 signup-form">
+                            <i claasName="fa fa-key"></i>
+                            <input type="password" className="form-control login-form" value={credentials.cpassword} onChange={onChange} name="cpassword" id="cpassword" minLength={5} required placeholder='Confirm Password' />
+                        </div>
+
+                        <button type="submit" className="login-button">Submit</button>
+                        <p>Already have an account ? <Link to="/login">Login.</Link>  </p>
+                    </form>
                 </div>
 
-                <button type="submit" className="btn btn-primary mt-3">
-                    Submit
-                </button>
-            </form>
-            <h6>Registered ?</h6>
-            <Link className="nav-link" to="/login">
-                Login
-            </Link>
+            </div>
         </div>
-    );
-};
+    )
+}
 
-export default Signup;
+export default Signup

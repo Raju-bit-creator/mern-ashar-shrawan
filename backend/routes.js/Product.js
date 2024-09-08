@@ -81,6 +81,8 @@ router.post('/addproduct', fetchuser,
 module.exports = router
 
 
+//status code
+
 //  200OK: The request was successful, and the server returned the requested data.
 
 // 400 Bad Request: The server could not understand the request due to invalid syntax.

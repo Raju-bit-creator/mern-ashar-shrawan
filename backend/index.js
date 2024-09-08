@@ -1,9 +1,11 @@
 const express= require('express')
+var cors = require('cors')
 const dbConnect = require('./db')
 const app = express()
 dbConnect()
 //  get post update delete crud
 const port= 5000
+app.use(cors())
 app.use(express.json())
  app.get('/', (req, res)=>{
     res.send('hello nepal')
