@@ -1,12 +1,33 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
-const Login = () => {
+const Login = (props) => {
     const [credential, setCredential]= useState({email:"", password:""})
+    const navigate= useNavigate()
 
-    const handleSubmit =()=>{
-       console.log("this is handle submit");
-       
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const { email, password } = credential
+        const response = await fetch("http://localhost:5000/api/auth/login", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        });
+        const json = await response.json()
+        console.log('this is response ', json);
+        if (json) {
+            // Save the auth token and redirect
+            localStorage.setItem('token', json.authToken);
+            navigate("/");
+            props.showAlert('Account created ', 'success')
+
+        }
+        else {
+            props.showAlert('invalid credential', 'danger')
+        }
     }
     const handleChange=(e)=>{
         setCredential({...credential, [e.target.name]:e.target.value})

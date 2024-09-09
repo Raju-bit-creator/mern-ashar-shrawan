@@ -18,6 +18,7 @@ import Form from './components/Reduce'
 import CartItems from './components/cartItems'
 import Login from './components/Login'
 import Signup from './components/Signup'
+import Addproduct from './components/Addproduct'
 
 
 
@@ -65,8 +66,9 @@ function App() {
           <Route path='/about' element={<About />} />
           <Route path='/reduce' element={<Form />} />
           <Route path='/cartitems' element={<CartItems/>} />
-          <Route path='/login' element={<Login/>} />
+          <Route path='/login' element={<Login alert={alert} showAlert={showAlert} />} />
           <Route path='/signup' element={<Signup alert={alert} showAlert={showAlert}  />} />
+          <Route path='/addproduct' element={<Addproduct alert={alert} showAlert={showAlert}  />} />
         </Routes>
       </Router>
     </BlogState>
