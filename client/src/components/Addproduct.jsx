@@ -1,82 +1,91 @@
+
 import React, { useState } from 'react'
 import axios from 'axios'
 
-const Addproduct = () => {
-
+const Addproduct = (props) => {
     const [product, setProduct] = useState({
         title: "",
         description: "",
         price: "",
         instock: "",
         image: ""
-    })
-    const imageUpload = (e) => {
-        setProduct({
-            ...product, image: e.target.files[0]
-        })
-    }
+    });
 
-    const handleSubmit =async () => {
-        // console.log("this is adding product");
-        const formData = new formData();
-        formData.append('title', product.title)
-        formData.append('description', product.description)
-        formData.append('price', product.price)
-        formData.append('instock', product.instock)
-        if(product.image){
-            formData.append('myfile', product.image)
+    const handleSubmit = async (e) => {
+        e.preventDefault(); // Prevent default form submission behavior
+        const formData = new FormData(); // Corrected capitalization
+        formData.append('title', product.title);
+        formData.append('description', product.description);
+        formData.append('price', product.price);
+        formData.append('instock', product.instock);
+        if (product.image) {
+            formData.append('myfile', product.image);
         }
         try {
-            const response= await axios.post('http://localhost:5000/api/product/addproduct', formData,{
-                "auth-token ": localStorage.getItem('token')
-            })
-            const data = await response
-            console.log("this our products", data);
-            
+            const response = await axios.post('http://localhost:5000/api/product/addproduct', formData, {
+                headers: {
+                    "auth-token": localStorage.getItem('token') // Added headers object for the token
+                }
+            });
+            console.log(response.data);
+            props.showAlert("Added successfully", "success");
+
+            setProduct({
+                title: "",
+                description: "",
+                price: "",
+                instock: "",
+                image: "" // Reset image state
+            });
 
         } catch (error) {
-            
+            console.error(error);
+            props.showAlert("Failed to add product", "danger");
         }
-
-    }
+    };
 
     const handleChange = (e) => {
-        setProduct({ ...product, [e.target.name]: e.target.value })
-    }
+        if (e.target.type === "file") {
+            setProduct({
+                ...product,
+                [e.target.name]: e.target.files[0] // Correcting the value for a single file
+            });
+        } else {
+            setProduct({
+                ...product,
+                [e.target.name]: e.target.value
+            });
+        }
+    };
+
     return (
         <div className='container'>
             <h4>Add your product here</h4>
-
             <form onSubmit={handleSubmit}>
-                <div class="mb-3">
-                    <label htmlFor="exampleInputEmail1" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" name='title' value={product.title} onChange={handleChange} aria-describedby="emailHelp" />
-
+                <div className="mb-3">
+                    <label htmlFor="title" className="form-label">Title</label>
+                    <input type="text" className="form-control" id="title" name='title' value={product.title} onChange={handleChange} />
                 </div>
-                <div class="mb-3">
-                    <label htmlFor="exampleInputEmail1" class="form-label">Description</label>
-                    <input type="text" class="form-control" name='description' value={product.description} onChange={handleChange} id="exampleInputEmail1" aria-describedby="emailHelp" />
-
+                <div className="mb-3">
+                    <label htmlFor="description" className="form-label">Description</label>
+                    <input type="text" className="form-control" name='description' value={product.description} onChange={handleChange} id="description" />
                 </div>
-                <div class="mb-3">
-                    <label htmlFor="exampleInputPassword1" class="form-label">Price</label>
-                    <input type="number" name='price' value={product.price} onChange={handleChange} class="form-control" id="price" />
+                <div className="mb-3">
+                    <label htmlFor="price" className="form-label">Price</label>
+                    <input type="number" name='price' value={product.price} onChange={handleChange} className="form-control" id="price" />
                 </div>
-                <div class="mb-3">
-                    <label htmlFor="exampleInputPassword1" class="form-label">Instock</label>
-                    <input type="number" name='instock' value={product.instock} onChange={handleChange} class="form-control" id="instock" />
+                <div className="mb-3">
+                    <label htmlFor="instock" className="form-label">Instock</label>
+                    <input type="number" name='instock' value={product.instock} onChange={handleChange} className="form-control" id="instock" />
                 </div>
-                <div class="mb-3">
-                    <label htmlFor="exampleInputPassword1" class="form-label">choose images</label>
-                    <input type="file" multiple name='image' onChange={imageUpload} class="form-control" id="instock" />
+                <div className="mb-3">
+                    <label htmlFor="image" className="form-label">Choose images</label>
+                    <input type="file" name='image' onChange={handleChange} className="form-control" id="image" />
                 </div>
-
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" className="btn btn-primary">Submit</button>
             </form>
-
-
         </div>
     )
 }
 
-export default Addproduct
+export default Addproduct;
