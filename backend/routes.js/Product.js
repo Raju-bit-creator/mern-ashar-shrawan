@@ -19,6 +19,8 @@ router.post('/addproduct', fetchuser,
     body('title').isLength({ min: 3 }),
     body('description').isLength({ min: 5 }),
     async (req, res) => {
+        console.log("req.files", req.files)
+        console.log("req.body", req.body)
      try {
         const {title, description, price, instock}= req.body
         console.log('this our product', req.body);
@@ -28,8 +30,11 @@ router.post('/addproduct', fetchuser,
         if (!error.isEmpty()){
          res.status(400).json({error:error.array()})
         }
+        let images = req.files.map(el => {
+            return el.filename
+        })
         const product = new Product({
-            title, description, price, instock, user: req.user.id
+            title, description, price, instock, images, user: req.user.id
         })
         const savedProduct =await product.save()
         res.json(savedProduct)

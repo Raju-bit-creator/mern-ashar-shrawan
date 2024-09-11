@@ -50,6 +50,7 @@ const Addproduct = (props) => {
                 ...product,
                 [e.target.name]: e.target.files[0] // Correcting the value for a single file
             });
+            console.log(e.target.files[0]);
         } else {
             setProduct({
                 ...product,
@@ -61,7 +62,7 @@ const Addproduct = (props) => {
     return (
         <div className='container'>
             <h4>Add your product here</h4>
-            <form onSubmit={handleSubmit}>
+            <form encType="multipart/form-data" onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="title" className="form-label">Title</label>
                     <input type="text" className="form-control" id="title" name='title' value={product.title} onChange={handleChange} />
@@ -80,7 +81,7 @@ const Addproduct = (props) => {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="image" className="form-label">Choose images</label>
-                    <input type="file" name='image' onChange={handleChange} className="form-control" id="image" />
+                    <input type="file" name='image'multiple onChange={handleChange} className="form-control" id="image" />
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>
