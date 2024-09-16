@@ -4,8 +4,12 @@ import blogContext from '../context/blogs/BlogContext'
 
 const Serviceitems = () => {
      const context= useContext(blogContext)
-     const {state:{cart, products}, dispatch}= context
+     const {state:{cart, products}, dispatch , allProduct}= context
     console.log("this is my products:", products);
+
+    useEffect(() => {
+       allProduct()
+      },[]);
     
     
     return (

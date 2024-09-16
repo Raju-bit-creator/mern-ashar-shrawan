@@ -29,20 +29,25 @@ const BlogState = (props) => {
         }
     )
   
-//   const [article, setArticle] = useState([])
-//      console.log(article);
-//     const fetchData =async () => {
-//         let url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${props.apiKey}`
-//         let data = await fetch(url)
-//         let parseData= await data.json()
-//         console.log(parseData);
-//         setArticle(parseData.articles)
+  const [product, setProduct] = useState(["mango","orange"])
 
-        
-//        }
+     console.log("this is our product from backend",product);
+
+  const allProduct = async()=>{
+    const  response= await  fetch("http://localhost:5000/api/product/getallproduct",{
+        method : "GET",
+        headers:{
+            "Content-Type": "application/json",
+            "auth-token": localStorage.getItem('token')
+        }
+    })
+    let parseData= await response.json()
+    console.log(parseData);
+    setProduct(parseData)
+  }
       
     return (
-        <blogContext.Provider  value={{state , dispatch}}>
+        <blogContext.Provider  value={{state , dispatch,  allProduct}}>
             {props.children}
         </blogContext.Provider>
     )
