@@ -17,7 +17,7 @@ const CartItems = () => {
                 <li className='list-group-item' key={prod.id}>
                     <div className='row'>
                         <div className='col-md-2'>
-                            <img src={coffee} alt={prod.name} className='img-fluid rounded'></img>
+                            <img src={`http://localhost:5000/uploads/${prod.images}`} alt={prod.name} className='img-fluid rounded'></img>
                         </div>
                         <div className='col-md-2'>
                           <h4>Name:{prod.title}</h4>  

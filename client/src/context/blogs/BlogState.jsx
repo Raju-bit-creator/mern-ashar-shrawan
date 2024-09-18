@@ -1,35 +1,19 @@
+
 import { useReducer, useState } from "react";
 import blogContext from "./BlogContext";
 import { cartReducer } from "../Reducers";
 
-const BlogState = (props) => {
+const ProductState = (props) => {
 
-    const products =[
-        {
-            "id":"111as",
-            "title": "coffee",
-            "description": "himalayan coffee from nepal",
-            "price": 150,
-            "instock": 5
-            
-        },
-        {
-            "id":"112as",
-            "title": "tea",
-            "description": "himalayan tea from nepal",
-            "price": 200,
-            "instock": 4
-        }
-
-    ]
+    const [product, setProduct] = useState([])
     const [state, dispatch] =useReducer(cartReducer, 
         {
-            products: products,
+            products: product,
             cart:[]
         }
     )
   
-  const [product, setProduct] = useState(["mango","orange"])
+  
 
      console.log("this is our product from backend",product);
 
@@ -47,9 +31,11 @@ const BlogState = (props) => {
   }
       
     return (
-        <blogContext.Provider  value={{state , dispatch,  allProduct}}>
+        <blogContext.Provider  value={{state , dispatch,  allProduct ,product, setProduct}}>
             {props.children}
         </blogContext.Provider>
     )
 }
-export default BlogState
+export default ProductState
+
+

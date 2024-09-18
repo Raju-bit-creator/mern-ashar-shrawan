@@ -19,6 +19,7 @@ import CartItems from './components/cartItems'
 import Login from './components/Login'
 import Signup from './components/Signup'
 import Addproduct from './components/Addproduct'
+import ProductState from './context/blogs/BlogState'
 
 
 
@@ -56,7 +57,7 @@ function App() {
   }
   return (
     <>
-    <BlogState apiKey={apiKey}>
+    <ProductState apiKey={apiKey}>
       <Router>
         <Navbar mode={mode} text={text} toggleMode={toggleMode} />
         <Alert alert={alert} showAlert={showAlert} />
@@ -71,7 +72,7 @@ function App() {
           <Route path='/addproduct' element={<Addproduct alert={alert} showAlert={showAlert}  />} />
         </Routes>
       </Router>
-    </BlogState>
+    </ProductState>
     </>
   )
 }
