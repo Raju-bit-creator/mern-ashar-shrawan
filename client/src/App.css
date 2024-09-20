@@ -1,3 +1,7 @@
 .service-heading{
     text-align: center;
 }
+.three-dots{
+    display: flex;
+    justify-content: space-between;
+}
