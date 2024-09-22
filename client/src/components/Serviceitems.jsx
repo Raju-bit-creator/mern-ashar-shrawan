@@ -4,28 +4,28 @@ import blogContext from '../context/blogs/BlogContext';
 import { BsThreeDots } from "react-icons/bs";
 import EditProductModal from './EditProductModal';
 
-const Serviceitems = () => {
+const Serviceitems = (props) => {
   const context = useContext(blogContext);
   const { state: { cart, products }, dispatch, allProduct, product } = context;
-  const[ menuVisible, setMenuVisible]= useState(false)
-  const[ modalVisible, setModalVisible]= useState(false)
+  const [menuVisible, setMenuVisible] = useState(false)
+  const [modalVisible, setModalVisible] = useState(false)
 
 
-  const toogleMenu= ()=>{
-   setMenuVisible(!menuVisible)
+  const toogleMenu = () => {
+    setMenuVisible(!menuVisible)
   }
-  
-  const openEditModal= ()=>{
-    setModalVisible(true)
-   }
-   const closeEditModal= ()=>{
-    setModalVisible(false)
-   }
 
-   const saveEdit =(updateData)=>{
-     editProduct(_id , updateData)
-     closeEditModal()
-   }
+  const openEditModal = () => {
+    setModalVisible(true)
+  }
+  const closeEditModal = () => {
+    setModalVisible(false)
+  }
+
+  const saveEdit = (updateData) => {
+    editProduct(_id, updateData)
+    closeEditModal()
+  }
 
   // Fetch products when the component mounts
   useEffect(() => {
@@ -50,11 +50,11 @@ const Serviceitems = () => {
                 <div className="card-body">
                   <div className='three-dots'>
                     <h5 className="card-title">{e.title}</h5>
-                    <BsThreeDots  onClick={toogleMenu}/>
+                    <BsThreeDots onClick={toogleMenu} />
                     {menuVisible && (
                       <div className='menu-options'>
                         <button onClick={openEditModal}>Edit</button>
-                        <button onClick={()=> deleteWork(_id)}>Delete</button>
+                        <button onClick={() => deleteWork(_id)}>Delete</button>
                       </div>
                     )}
                   </div>
@@ -87,14 +87,14 @@ const Serviceitems = () => {
                   )}
                 </div>
               </div>
+              {modalVisible && (
+                <EditProductModal
+                  product={product}
+                  onClose={closeEditModal}
+                  onSave={saveEdit} />
+              )}
             </div>
           );
-          {modalVisible && (
-            <EditProductModal 
-            product= {props.product}
-            onClose={closeEditModal}
-            onSave= {saveEdit}/> 
-          )}
         })}
       </div>
     </div>
@@ -102,3 +102,4 @@ const Serviceitems = () => {
 };
 
 export default Serviceitems;
+
