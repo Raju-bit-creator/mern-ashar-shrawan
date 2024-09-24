@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const EditProductModal = ({ product, onClose, onSave }) => {
+const EditProductModal = ({ product, onClose, onSave, allProduct }) => {
   const [formData, setFormData] = useState({
     title: product.title,
     description: product.description,
@@ -13,6 +13,7 @@ const EditProductModal = ({ product, onClose, onSave }) => {
   const handleSave=()=>{
     onSave(formData)
     onClose()
+    
   }
   return (
     <div className=' modal show' style={{ display: "block" }}>
