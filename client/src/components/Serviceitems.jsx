@@ -32,11 +32,10 @@ const Serviceitems = () => {
     editProduct(selectedProduct._id, updateData);
     closeEditModal();
   };
-
-  const handleDelete = async (id) => {
-    await deleteProduct(id);
-    allProduct(); // Refresh the product list after deletion
-  };
+ const handleDelete= async(id)=>{
+  await deleteProduct(id)
+ }
+  
 
   useEffect(() => {
     allProduct();

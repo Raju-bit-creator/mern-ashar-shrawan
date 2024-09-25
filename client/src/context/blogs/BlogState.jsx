@@ -52,32 +52,32 @@ const ProductState = (props) => {
             throw new Error('fail to update product')
         }
     }
-    const deleteProduct = async (id) => {
+    const deleteProduct = async(id)=>{
         try {
-            const response = await fetch(`http://localhost:5000/api/product/deleteproduct/${id}`, {
+            const response= await fetch(`http://localhost:5000/api/product/deleteproduct/${id}`,{
                 method: 'DELETE',
-
                 headers: {
-                    "Content-Type": "application/json",
+                    "Content-Type":"application/json",
                     "auth-token": localStorage.getItem('token')
-                },
-            });
-
-            if (response.ok) {
-                console.log("Work item deleted successfully.");
-                // Update the state to remove the deleted item from the UI
-                allProduct(); // Fetch the updated list of products
-            } else {
-                console.error("Failed to delete the work item.");
+                }
+            })
+            if(response.ok){
+                console.log("product deleted successfully");
+                allProduct()
+                
+            }
+            else{
+                console.error("failed to delete the product item")
             }
         } catch (error) {
-            console.error("An error occurred while deleting the work item:", error);
+            console.error("internal server error")
         }
-    };
+    }
+   
 
 
     return (
-        <blogContext.Provider value={{ state, dispatch, allProduct, product, setProduct, editProduct, deleteProduct }}>
+        <blogContext.Provider value={{ state, dispatch, allProduct, product, setProduct, editProduct , deleteProduct }}>
             {props.children}
         </blogContext.Provider>
     )

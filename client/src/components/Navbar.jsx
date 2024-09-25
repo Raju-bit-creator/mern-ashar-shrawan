@@ -4,8 +4,8 @@ import { FaShoppingCart } from "react-icons/fa";
 import blogContext from '../context/blogs/BlogContext';
 
 const Navbar = (props) => {
-    const context= useContext(blogContext)
-     const {state:{cart}}= context
+    const context = useContext(blogContext)
+    const { state: { cart } } = context
     return (
         <nav className={`navbar navbar-expand-lg navbar-${props.mode} bg-${props.mode}`}>
             <div className="container-fluid">
@@ -27,10 +27,11 @@ const Navbar = (props) => {
                         <li className="nav-item">
                             <Link className="nav-link" to="/login">Login</Link>
                         </li>
-                        
                        
+
+
                         <Link to="./cartitems"><button type="button" className="btn btn-primary position-relative">
-                            <FaShoppingCart/>
+                            <FaShoppingCart />
                             <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                 {cart.length}
                                 <span className="visually-hidden">unread messages</span>
@@ -38,12 +39,13 @@ const Navbar = (props) => {
                         </button>
                         </Link>
 
+
                     </ul>
 
-                    {/* <form className="d-flex">
+                    <form className="d-flex">
                         <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                         <button className="btn btn-outline-success" type="submit">Search</button>
-                    </form> */}
+                    </form>
                     <button className='btn btn-primary' onClick={props.toggleMode}>{props.text}</button>
                 </div>
             </div>
