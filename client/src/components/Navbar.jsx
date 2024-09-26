@@ -1,11 +1,41 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaShoppingCart } from "react-icons/fa";
 import blogContext from '../context/blogs/BlogContext';
+import SearchItems from './SearchItems';
 
 const Navbar = (props) => {
     const context = useContext(blogContext)
-    const { state: { cart } } = context
+    const { state: { cart } ,product} = context
+    console.log("this is our search products", product);
+    
+
+    const[title, setTitle]= useState('')
+    const[results, setResults]= useState([])
+    const[modalVisible, setModalVisible]= useState(false)
+
+    useEffect(()=>{
+        const filteredProducts= product?.filter(prod =>
+            title? prod.title.toLowerCase() === title.toLowerCase(): true
+        );
+        setResults(filteredProducts)
+        console.log( "filtered products", filteredProducts);
+        
+
+    },[title, product])
+    
+     const handleTitleChange =(e)=>{
+     setTitle(e.target.value)
+     }
+
+     const openModal=(e)=>{
+        e.preventDefault()
+        setModalVisible(true)
+     }
+     const closeModal=()=>{
+        setModalVisible(false)
+     }
+
     return (
         <nav className={`navbar navbar-expand-lg navbar-${props.mode} bg-${props.mode}`}>
             <div className="container-fluid">
@@ -42,14 +72,16 @@ const Navbar = (props) => {
 
                     </ul>
 
-                    <form className="d-flex">
-                        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button className="btn btn-outline-success" type="submit">Search</button>
+                    <form className="d-flex" onSubmit={openModal}>
+                        <input className="form-control me-2" name='title' value={title} onChange={handleTitleChange} type="search" placeholder="Search" aria-label="Search" />
+                        <button className="btn btn-outline-success" onClick={openModal} type="submit">Search</button>
                     </form>
+                    { modalVisible && (<SearchItems results ={results} onClose= {closeModal}/>)}
                     <button className='btn btn-primary' onClick={props.toggleMode}>{props.text}</button>
                 </div>
             </div>
-        </nav>
+        </nav>  
+        
     )
 }
 
