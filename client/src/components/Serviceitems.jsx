@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import blogContext from '../context/blogs/BlogContext';
 import { BsThreeDots } from "react-icons/bs";
 import EditProductModal from './EditProductModal';
+import { useNavigate } from 'react-router-dom';
 
 const Serviceitems = () => {
   const context = useContext(blogContext);
@@ -10,6 +11,18 @@ const Serviceitems = () => {
   const [menuVisible, setMenuVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const navigate = useNavigate(); // Initialize navigate
+
+  // Check for auth token and navigate to login if not found
+  useEffect(() => {
+    const authToken = localStorage.getItem('token');
+    if (!authToken) {
+      navigate('login'); // Redirect to login if token is not found
+    } else {
+      allProduct(); // Fetch all products if token is available
+    }
+  }, [navigate]);
 
   const toggleMenu = (id) => {
     setMenuVisible(prevState => ({

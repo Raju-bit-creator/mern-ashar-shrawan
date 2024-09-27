@@ -6,35 +6,39 @@ import SearchItems from './SearchItems';
 
 const Navbar = (props) => {
     const context = useContext(blogContext)
-    const { state: { cart } ,product} = context
+    const { state: { cart }, product } = context
     console.log("this is our search products", product);
-    
 
-    const[title, setTitle]= useState('')
-    const[results, setResults]= useState([])
-    const[modalVisible, setModalVisible]= useState(false)
 
-    useEffect(()=>{
-        const filteredProducts= product?.filter(prod =>
-            title? prod.title.toLowerCase() === title.toLowerCase(): true
+    const [title, setTitle] = useState('')
+    const [results, setResults] = useState([])
+    const [modalVisible, setModalVisible] = useState(false)
+
+    useEffect(() => {
+        const filteredProducts = product?.filter(prod =>
+            title ? prod.title.toLowerCase() === title.toLowerCase() : true
         );
         setResults(filteredProducts)
-        console.log( "filtered products", filteredProducts);
-        
+        console.log("filtered products", filteredProducts);
 
-    },[title, product])
-    
-     const handleTitleChange =(e)=>{
-     setTitle(e.target.value)
-     }
 
-     const openModal=(e)=>{
+    }, [title, product])
+
+    const handleTitleChange = (e) => {
+        setTitle(e.target.value)
+    }
+
+    const openModal = (e) => {
         e.preventDefault()
         setModalVisible(true)
-     }
-     const closeModal=()=>{
+    }
+    const closeModal = () => {
         setModalVisible(false)
-     }
+    }
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        navigate('/login');
+    };
 
     return (
         <nav className={`navbar navbar-expand-lg navbar-${props.mode} bg-${props.mode}`}>
@@ -49,15 +53,22 @@ const Navbar = (props) => {
                             <Link className="nav-link active" aria-current="page" to="/">Home</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/blogs">Blogs</Link>
+                            <Link className="nav-link" to="blogs">Blogs</Link>
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link" to="/about">About Us</Link>
                         </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/login">Login</Link>
-                        </li>
-                       
+                        {localStorage.getItem('token') ?
+                            <li className="nav-item" onClick={handleLogout}>
+                                <Link className="nav-link" to="login">Logout</Link>
+                            </li>
+                            :
+                            <li className="nav-item">
+                                <Link className="nav-link" to="login">Login</Link>
+                            </li>
+                        }
+
+
 
 
                         <Link to="./cartitems"><button type="button" className="btn btn-primary position-relative">
@@ -76,12 +87,12 @@ const Navbar = (props) => {
                         <input className="form-control me-2" name='title' value={title} onChange={handleTitleChange} type="search" placeholder="Search" aria-label="Search" />
                         <button className="btn btn-outline-success" onClick={openModal} type="submit">Search</button>
                     </form>
-                    { modalVisible && (<SearchItems results ={results} onClose= {closeModal}/>)}
+                    {modalVisible && (<SearchItems results={results} onClose={closeModal} />)}
                     <button className='btn btn-primary' onClick={props.toggleMode}>{props.text}</button>
                 </div>
             </div>
-        </nav>  
-        
+        </nav>
+
     )
 }
 

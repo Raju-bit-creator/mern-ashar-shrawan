@@ -3,6 +3,7 @@ import Banner from './Banner'
 import Serviceitems from './Serviceitems'
 
 const Home = () => {
+  
   return (
     <div>
       <Banner />
