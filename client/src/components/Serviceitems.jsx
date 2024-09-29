@@ -18,7 +18,7 @@ const Serviceitems = () => {
   useEffect(() => {
     const authToken = localStorage.getItem('token');
     if (!authToken) {
-      navigate('login'); // Redirect to login if token is not found
+      navigate('/login'); // Redirect to login if token is not found
     } else {
       allProduct(); // Fetch all products if token is available
     }
