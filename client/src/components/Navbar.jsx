@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FaShoppingCart } from "react-icons/fa";
 import blogContext from '../context/blogs/BlogContext';
 import SearchItems from './SearchItems';
@@ -8,13 +8,26 @@ const Navbar = (props) => {
     const context = useContext(blogContext)
     const { state: { cart }, product } = context
     console.log("this is our search products", product);
+   const navigate= useNavigate()
 
 
     const [title, setTitle] = useState('')
     const [results, setResults] = useState([])
     const [modalVisible, setModalVisible] = useState(false)
+    // useEffect(() => {
+    //     const authToken = localStorage.getItem('token');
+    //     if (!authToken) {
+    //       navigate('/login'); // Redirect to login if token is not found
+    //     } else {
+    //       allProduct(); // Fetch all products if token is available
+    //     }
+    //   }, []);
 
     useEffect(() => {
+        const authToken = localStorage.getItem('token');
+        if (!authToken) {
+            navigate('/login'); // Redirect to login if token is not found
+          }
         const filteredProducts = product?.filter(prod =>
             title ? prod.title.toLowerCase() === title.toLowerCase() : true
         );
@@ -39,6 +52,8 @@ const Navbar = (props) => {
         localStorage.removeItem('token');
         navigate('/login');
     };
+  
+    
 
     return (
         <nav className={`navbar navbar-expand-lg navbar-${props.mode} bg-${props.mode}`}>
@@ -60,7 +75,7 @@ const Navbar = (props) => {
                         </li>
                         {localStorage.getItem('token') ?
                             <li className="nav-item" onClick={handleLogout}>
-                                <Link className="nav-link" to="login">Logout</Link>
+                                <Link className="nav-link" to="#">Logout</Link>
                             </li>
                             :
                             <li className="nav-item">
