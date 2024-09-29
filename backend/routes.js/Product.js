@@ -4,14 +4,14 @@ const fetchuser = require('../middleware/Fetchuser')
 const {body, validationResult } = require('express-validator')
 const router = express.Router()
 
-router.get('/gethomeproduct', fetchuser, async (req, res) => {
-    try {
-        const products = await Product.find()
-        res.json(products)
-    } catch (error) {
-        res.status(500).send("internal server error")
-    }
-})
+// router.get('/gethomeproduct', fetchuser, async (req, res) => {
+//     try {
+//         const products = await Product.find()
+//         res.json(products)
+//     } catch (error) {
+//         res.status(500).send("internal server error")
+//     }
+// })
 //fetch all products by single user
 router.get('/getallproduct', fetchuser, async (req, res) => {
     try {

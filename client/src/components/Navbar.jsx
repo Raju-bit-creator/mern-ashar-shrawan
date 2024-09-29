@@ -8,26 +8,16 @@ const Navbar = (props) => {
     const context = useContext(blogContext)
     const { state: { cart }, product } = context
     console.log("this is our search products", product);
-   const navigate= useNavigate()
+    const navigate = useNavigate()
 
 
     const [title, setTitle] = useState('')
     const [results, setResults] = useState([])
     const [modalVisible, setModalVisible] = useState(false)
-    // useEffect(() => {
-    //     const authToken = localStorage.getItem('token');
-    //     if (!authToken) {
-    //       navigate('/login'); // Redirect to login if token is not found
-    //     } else {
-    //       allProduct(); // Fetch all products if token is available
-    //     }
-    //   }, []);
+
 
     useEffect(() => {
-        const authToken = localStorage.getItem('token');
-        if (!authToken) {
-            navigate('/login'); // Redirect to login if token is not found
-          }
+
         const filteredProducts = product?.filter(prod =>
             title ? prod.title.toLowerCase() === title.toLowerCase() : true
         );
@@ -48,12 +38,13 @@ const Navbar = (props) => {
     const closeModal = () => {
         setModalVisible(false)
     }
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        navigate('/login');
-    };
-  
-    
+  const handleLogout = ()=>{
+    localStorage.removeItem('token')
+    navigate('/login')
+
+  }
+
+
 
     return (
         <nav className={`navbar navbar-expand-lg navbar-${props.mode} bg-${props.mode}`}>
@@ -73,15 +64,14 @@ const Navbar = (props) => {
                         <li className="nav-item">
                             <Link className="nav-link" to="/about">About Us</Link>
                         </li>
+                       
                         {localStorage.getItem('token') ?
-                            <li className="nav-item" onClick={handleLogout}>
-                                <Link className="nav-link" to="#">Logout</Link>
-                            </li>
-                            :
                             <li className="nav-item">
-                                <Link className="nav-link" to="login">Login</Link>
-                            </li>
-                        }
+                                <Link className="nav-link" onClick={handleLogout} to="#">Logout</Link>
+                            </li> : <li className="nav-item">
+                                <Link className="nav-link" to="/login">login</Link>
+                            </li>}
+
 
 
 
@@ -112,3 +102,4 @@ const Navbar = (props) => {
 }
 
 export default Navbar
+
